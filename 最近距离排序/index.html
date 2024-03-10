@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>最近距离排序</title>
+  </head>
+  <body>
+    <script>
+      let xm = {
+        name: "小明",
+        home: 700,
+      };
+
+      let schoolfellow = [
+        {
+          name: "梨花",
+          home: 300,
+        },
+        {
+          name: "王强",
+          home: 701,
+        },
+        {
+          name: "杨树",
+          home: 1500,
+        },
+        {
+          name: "张三",
+          home: 1000,
+        },
+      ];
+
+      /*
+        @param {*} arr源数组
+        @param {*} info 排序参考对象
+        */
+      function sort(arr, info) {
+        function dis(p1, p2) {
+          return Math.abs(p1.home - p2.home);
+        }
+
+        return arr
+          .map((it) => ({ ...it, dis: dis(it, info) }))
+          .sort((a, b) => a.dis - b.dis);
+      }
+
+      let resArr = sort(schoolfellow, xm);
+      console.log(resArr);
+    </script>
+  </body>
+</html>
