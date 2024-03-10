@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模型动画</title>
+  </head>
+
+  <body>
+    <div id="WebGL-output"></div>
+  </body>
+
+  <script type="module">
+    import * as THREE from "./js/three.module.js";
+    import { OrbitControls } from "./js/OrbitControls.js";
+    import { GLTFLoader } from "./js/GLTFLoader.js";
+    import { RoomEnvironment } from "./js/RoomEnvironment.js";
+    import { MeshoptDecoder } from "./js/meshopt_decoder.module.js";
+    import { DRACOLoader } from "./js/DRACOLoader.js";
+
+    let scene, camera, renderer, control, clock, mixer;
+
+    function init() {
+      clock = new THREE.Clock();
+      // 场景，相机
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xbbbbbb);
+      camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000
+      );
+      camera.position.set(20, 100, 170);
+
+      // 渲染器
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // 地表格
+      const grid = new THREE.GridHelper(500, 100, 0xffffff, 0xffffff);
+      grid.material.opacity = 0.5;
+      grid.material.depthWrite = false;
+      grid.material.transparent = true;
+      scene.add(grid);
+
+      // 材质
+      const environment = new RoomEnvironment();
+      const pmremGenerator = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmremGenerator.fromScene(environment).texture;
+
+      //   灯光
+      scene.add(new THREE.AmbientLight(0x444444));
+
+      const light = new THREE.DirectionalLight(0xffffff);
+      light.position.set(0, 20, 20);
+
+      light.castShadow = true;
+      light.shadow.camera.top = 10;
+      light.shadow.camera.bottom = -10;
+      light.shadow.camera.left = -10;
+      light.shadow.camera.right = 10;
+
+      //告诉平行光需要开启阴影投射
+      light.castShadow = true;
+      scene.add(light);
+
+      // 控制器
+      control = new OrbitControls(camera, renderer.domElement);
+
+      const axesHelper = new THREE.AxesHelper(14);
+      scene.add(axesHelper);
+      loader();
+      animate();
+    }
+
+    function loader() {
+      const loader = new GLTFLoader()
+        .setPath("./model/")
+        .setDRACOLoader(new DRACOLoader().setDecoderPath("js/gltf/"));
+
+      loader.load("zi17.gltf", function (gltf) {
+        console.log(gltf);
+        gltf.scene.scale.set(30, 30, 30);
+        mixer = new THREE.AnimationMixer(gltf.scene);
+        mixer.clipAction(gltf.animations[0]).play();
+        scene.add(gltf.scene);
+      });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (mixer) mixer.update(clock.getDelta());
+      control.update(); // required if damping enabled
+      render();
+    }
+
+    function render() {
+      renderer.render(scene, camera);
+    }
+
+    init();
+    animate();
+  </script>
+</html>
