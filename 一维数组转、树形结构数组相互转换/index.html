@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数组互转</title>
+  </head>
+  <body>
+    <script>
+      let dataArr = [
+        { id: 1, pid: 0 },
+        { id: 2, pid: 1 },
+      ];
+      let dataTree = [
+        {
+          id: 1,
+          pid: 0,
+          children: [
+            {
+              id: 2,
+              pid: 1,
+              children: [],
+            },
+          ],
+        },
+      ];
+
+      let data = [
+        { id: 1, pid: 0 },
+        { id: 2, pid: 0 },
+        { id: 3, pid: 1 },
+        { id: 4, pid: 2 },
+        { id: 5, pid: 3 },
+        { id: 6, pid: 4 },
+        { id: 7, pid: 5 },
+        { id: 8, pid: 6 },
+      ];
+
+      //   递归方法转树形结构数据（计算量大，不会改变原有数据）
+
+      function arrToTreeData(
+        data,
+        pidVal = 0,
+        pidName = "pid",
+        childName = "children"
+      ) {
+        // 一般 pid 就是 parentId，指的是父级 id，这里默认是 pid
+        // 一般 pidVal 的值为 0 时，默认是根节点
+        // childName 在大多数表格，多级嵌套等组件里通常都是用 children 命名，这里默认是 children
+        let result = [];
+
+        data.forEach((item) => {
+          if (item[pidName] === pidVal) {
+            result.push({
+              ...item,
+              [childName]: arrToTreeData(data, item.id),
+            });
+          }
+        });
+        return result;
+      }
+
+      arrToTreeData(data);
+
+      //   对象引用法转树形结构数据(计算量小，不使用深拷贝则会改变原始数据)
+      function arrToTreeData2(data, pidName = "pid", childName = "children") {
+        // 一般 pid 就是 parentId，指的是父级 id，这里默认是 pid
+        // childName 在大多数表格，多级嵌套等组件里通常都是用 children 命名，这里默认是 children
+        let obj = {};
+        let result = [];
+
+        data.forEach((item) => {
+          obj[item.id] = item;
+        });
+
+        for (let i = 0; i < data.length; i++) {
+          let item = data[i];
+          let parent = obj[item[pidName]];
+          if (parent) {
+            (parent[childName] || (parent[childName] = [])).push(item);
+          } else {
+            result.push(item);
+          }
+        }
+        return result;
+      }
+      arrToTreeData2(data);
+
+      //   广度法树形结构数据扁平化
+      function cutTree(data, childName = "children") {
+        let result = [];
+
+        while (data.length != 0) {
+          let shift = data.shift();
+          let children = shift[childName];
+          delete shift[childName];
+          result.push(shift);
+
+          if (children) {
+            children.forEach((item) => {
+              data.push(item);
+            });
+          }
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>
