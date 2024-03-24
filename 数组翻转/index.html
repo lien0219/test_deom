@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数组翻转</title>
+  </head>
+  <body>
+    <script>
+      let arr = [10, 20, 30, 40, 50];
+      //   1.使用reverse()的方法进行反转(影响原数组)
+      console.log(arr.reverse());
+      //  2. 利用数组循环，使用unshift() 方法将新项添加到数组的开头，并返回新的长度。unshift() 方法会改变数组的长度。
+      let arrShift = [10, 20, 30, 40, 50];
+
+      let arr2 = [];
+      arrShift.forEach((item) => {
+        arr2.unshift(item);
+      });
+      console.log(arr2);
+      //   3.使用for循环进行反转
+      let arr4 = [10, 20, 30, 40, 50];
+
+      let arr5 = [];
+
+      for (let i = arr4.length - 1; i >= 0; i--) {
+        arr5.push(arr4[i]);
+      }
+      console.log(arr5);
+    </script>
+  </body>
+</html>
