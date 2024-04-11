@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>瀑布流</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .wrap {
+        position: relative;
+        margin: 10px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: pink;
+      }
+
+      .box {
+        position: absolute;
+        /* 图像灰度 */
+        filter: grayscale(0.5);
+        transition: left 0.5s, top 0.5s;
+      }
+
+      .box img {
+        display: block;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="box">
+        <img src="../images/1.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/2.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/3.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/4.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/5.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/6.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/7.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/8.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/9.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/10.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/11.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/12.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/13.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/14.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/15.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/16.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/10.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/11.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/12.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/14.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/15.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/16.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/10.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/11.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/12.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/1.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/2.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/3.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/4.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/5.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/6.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/7.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/1.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/2.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/3.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/4.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/5.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/6.jpg" alt="" />
+      </div>
+      <div class="box">
+        <img src="../images/7.jpg" alt="" />
+      </div>
+    </div>
+    <script>
+      // 根据元素宽度生成列数从而实现响应式
+      //   function createColumns(ele) {
+      //     let width = ele.offsetWidth;
+      //     if (width >= 1200) {
+      //       _column = 5;
+      //     }
+
+      //     if (width < 1200 && width >= 992) {
+      //       _column = 4;
+      //     }
+
+      //     if (width < 992 && width >= 768) {
+      //       _column = 3;
+      //     }
+
+      //     if (width < 768) {
+      //       _column = 2;
+      //     }
+      //     if (width < 360) {
+      //       _column = 1;
+      //     }
+      //     return _column;
+      //   }
+      function createColumns(ele) {
+        let width = ele.offsetWidth;
+        let _column;
+
+        switch (true) {
+          case width >= 1200:
+            _column = 5;
+            break;
+          case width < 1200 && width >= 992:
+            _column = 4;
+            break;
+          case width < 992 && width >= 768:
+            _column = 3;
+            break;
+          case width < 768:
+            _column = 2;
+            break;
+          case width < 360:
+            _column = 1;
+            break;
+        }
+
+        return _column;
+      }
+
+      function render() {
+        let _wrap = document.querySelector(".wrap"); //父容器
+        let _column = createColumns(_wrap); //列数
+        let _spacing = 10; //间距
+        let _colWidth =
+          (_wrap.offsetWidth - (_column - 1) * _spacing) / _column; //列宽
+        let _boxList = document.querySelectorAll(".box");
+        let _arr = []; //高度数组
+        // let totalHeight = 0; // 总高度
+        for (let i = 0; i < _boxList.length; i++) {
+          _boxList[i].style.width = _colWidth + "px";
+          if (i < _column) {
+            _arr.push(_boxList[i].offsetHeight); //将每一列的高度存放到_arr数组中
+            _boxList[i].style.top = 0;
+            _boxList[i].style.left = (_colWidth + _spacing) * i + "px";
+          } else {
+            let min = Math.min(..._arr); //最小高度
+            let index = _arr.indexOf(min); //最小高度的索引
+            _boxList[i].style.top = min + _spacing + "px"; //第二列居上距离
+            _boxList[i].style.left = (_spacing + _colWidth) * index + "px"; //第二列居左距离
+            _arr[index] += _boxList[i].offsetHeight + _spacing;
+          }
+          //   totalHeight = Math.max(..._arr); // 获取最高列的高度
+          //   console.log(totalHeight);
+        }
+        // _wrap.style.height =
+        //   totalHeight * Math.ceil(_boxList.length / _column) + "px"; // 设置.wrap的高度
+      }
+      //资源全部加载完成后再运行代码
+      window.addEventListener("load", render);
+      // 窗口宽度改变
+      window.addEventListener("resize", render);
+    </script>
+  </body>
+</html>

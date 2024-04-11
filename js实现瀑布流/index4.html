@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<br lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>瀑布流</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            position: relative;
+        }
+        #box .item{
+            position: absolute;
+            width: 300px;
+        }
+        #box .item img{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="box">
+    <div class="item">
+        <img src="../images/1.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/4.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/3.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/2.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/3.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/4.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/2.jpg" alt="">
+    </div>
+    <div class="item">
+        <img src="../images/10.jpg" alt="">
+    </div>
+    <div class="item">
+      <img src="../images/1.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/4.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/3.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/2.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/3.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/4.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/2.jpg" alt="">
+  </div>
+  <div class="item">
+      <img src="../images/10.jpg" alt="">
+  </div>
+  <div class="item">
+    <img src="../images/1.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/4.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/3.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/2.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/3.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/4.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/2.jpg" alt="">
+</div>
+<div class="item">
+    <img src="../images/10.jpg" alt="">
+</div>
+</div>
+
+<script>
+    function waterImg(){
+        let box = document.getElementById('box');
+        let items = box.children;//包裹图片的div类数组
+        let clientWidth =getClient().width;
+        let columnNums =parseInt(clientWidth/300); //根据网页可视宽度计算一行的列数
+        let leftWeight = 10;
+        let oneColumsHeight = [];//存储第一列图片的高度--为了计算后面列数图片的排列情况
+        for(let i=0;i<items.length;i++){
+            if(i<=columnNums-1){//这里判断是否是第一行的图片--根据列数和下标来对比
+                items[i].style.left=i*(300+leftWeight)+'px';
+                //浏览器从小到大拉伸--这里要设置
+                items[i].style.top = 0 + 'px';
+                oneColumsHeight.push(items[i].offsetHeight);//offsetWidth = width + padding + border， 和margin无关。
+            }else{
+                //先找到存储第一列高度数组里面最小的那个高度数据
+                let minHeight = oneColumsHeight[0];
+                let index = 0;
+                for(let j = 0;j<oneColumsHeight.length;j++){
+                    if(minHeight>oneColumsHeight[j]){
+                        minHeight = oneColumsHeight[j];
+                        index = j
+                    }
+                }
+                //找到过后给这个图片的top-left属性进行赋值(因为不是第一行了--top属性要进行赋值)
+                items[i].style.top = oneColumsHeight[index]+leftWeight + 'px';
+                items[i].style.left = items[index].offsetLeft+'px';
+                //然后这里--因为oneColumsHeight中最短的那个height下面已经加了一张图片了--所以这里要给最短的height的值进行增加（增加的高度为新加的那张图片的高度）
+                // console.log(items[i].offsetHeight)
+                oneColumsHeight[index] = oneColumsHeight[index]+items[i].offsetHeight + leftWeight;
+            }
+        }
+        //获取视口宽度--高度方法
+        function getClient() {
+            return {
+                width:window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                height:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+            }
+        }
+    }
+    //加载时触发
+    window.onload= waterImg;
+    //浏览器视口改变触发
+    window.onresize = throttle(500);
+    //闭包实现截流
+    function throttle(wait) {
+        let timer;
+        return function () {
+            if (!timer){
+                timer = setTimeout(function () {
+                    waterImg();
+                    timer = null;
+                },wait);
+            }
+
+        }
+    }
+</script>
+</body>
+</html>

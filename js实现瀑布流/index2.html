@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>瀑布流</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+      }
+      img {
+        border: 0;
+      }
+      .wrap {
+        width: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        background: #ddd;
+      }
+      .wrap div {
+        width: 200px;
+        padding: 4px;
+        border: 1px solid #000;
+        float: left;
+        position: absolute;
+      }
+      .wrap div h3 {
+        line-height: 35px;
+      }
+      .wrap div img {
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap" id="wrap">
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/1.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/2.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/3.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/4.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/5.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/6.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/7.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/8.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/9.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+      <div>
+        <h3>瀑布流</h3>
+        <a href="javascript:void(0)" title=""
+          ><img src="../images/10.jpg" alt="" title=""
+        /></a>
+        <p>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</p>
+        <span>瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流瀑布流</span>
+      </div>
+    </div>
+
+    <script>
+      //获取非行内样式的兼容
+      function getStyle(dom, attr) {
+        return dom.currentStyle
+          ? dom.currentStyle[attr]
+          : getComputedStyle(dom)[attr];
+      }
+
+      //完美运动框架
+      function sport(dom, json, fn) {
+        //1. 停止计时器
+        clearInterval(dom.timer);
+        //2. 启动计时器
+        dom.timer = setInterval(() => {
+          //2.1 设置开关
+          let falg = true;
+          //2.2 遍历对象
+          for (let attr in json) {
+            //2.2.1 获取当前值
+            let cur = null;
+            if (attr === "opacity") {
+              cur = Math.floor(parseFloat(getStyle(dom, attr)) * 100);
+            } else {
+              cur = parseInt(getStyle(dom, attr));
+            }
+            //2.2.2 计算速度
+            let speed = (json[attr] - cur) / 8;
+            //小数问题
+            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+            //2.2.3 检测是否达标
+            if (cur !== json[attr]) {
+              falg = false;
+            }
+            //2.2.4设置运动
+            if (attr === "opacity") {
+              dom.style.opacity = (cur + speed) / 100;
+              dom.style.filter = `alpha(opacity=${cur + speed})`;
+            } else {
+              dom.style[attr] = cur + speed + "px";
+            }
+            // console.log(cur,speed,json[attr]);
+          }
+          //2.3 检测开关
+          if (falg) {
+            clearInterval(dom.timer);
+            if (fn instanceof Function) {
+              fn();
+            }
+          }
+        }, 30);
+      }
+      /*
+    1. 获取大盒子
+    2. 获取所有的子节点
+    3. 计算大盒子的宽
+    4. 计算一个子节点的宽
+    5. 计算列数（大盒子的宽 / 一个子节点的宽)
+    6. 计算列与列之间的距离（ （盒子的宽 - 子节点占用的宽） / （列数 + 1)
+    7. 初始化第一行的坐标值
+    8.2 对号入座
+    8.1 求最小高度的位置
+*/
+      function WaterFall() {
+        //大盒子
+        this.big_box = document.querySelector(".wrap");
+        //所有的子节点
+        this.childs = this.big_box.children;
+        //初始化数据
+        this.init();
+      }
+      WaterFall.prototype.init = function () {
+        // 3. 计算大盒子的宽
+        let big_box_width = this.big_box.offsetWidth;
+        // 4. 计算一个子节点的宽
+        let child_width = this.childs[0].offsetWidth;
+        // 5. 计算列数（大盒子的宽 / 一个子节点的宽)
+        let col_num = Math.floor(big_box_width / child_width);
+        // 6. 计算列与列之间的距离（ （盒子的宽 - 子节点占用的宽） / （列数 + 1)
+        let padding = Math.floor(
+          (big_box_width - child_width * col_num) / (col_num + 1)
+        );
+        // 7. 初始化第一行的坐标值
+        //一行有n列  数组
+        this.arr = [];
+        //第一列有几个值：两个  对象
+        for (let i = 0; i < col_num; i++) {
+          this.arr.push({
+            left: padding * (i + 1) + child_width * i,
+            top: 10,
+          });
+        }
+        // 8.2 对号入座
+        //遍历子节点
+        for (let i = 0, len = this.childs.length; i < len; i++) {
+          //设置每一个子节点的位置
+          //求出最小高度的下标
+          let index = this.minHeight();
+          //设置位置
+          // this.childs[i].style.left = this.arr[index].left + 'px';
+          // this.childs[i].style.top = this.arr[index].top + 'px';
+          sport(this.childs[i], {
+            left: this.arr[index].left,
+            top: this.arr[index].top,
+          });
+          //重新修改高度
+          this.arr[index].top += 10 + this.childs[i].offsetHeight;
+          //解决大盒子塌陷的问题
+          this.big_box.style.height = this.arr[index].top + "px";
+        }
+      };
+
+      // 8.1 求最小高度的位置
+      WaterFall.prototype.minHeight = function () {
+        //先取出第一列的高
+        let min = this.arr[0].top;
+        //记录下标
+        let i = 0;
+        //遍历数组
+        this.arr.forEach((value, index) => {
+          if (min > value.top) {
+            min = value.top;
+            i = index;
+          }
+        });
+        //返回当前最小高度位置的下标
+        return i;
+      };
+
+      //创建对象
+      window.onload = function () {
+        new WaterFall();
+      };
+      //窗尺寸事件
+      window.onresize = function () {
+        new WaterFall();
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>瀑布流</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      div {
+        width: 150px;
+        position: absolute;
+        border: 1px solid;
+      }
+      img {
+        display: inline-block;
+        width: 150px;
+      }
+      #wrap {
+        position: relative;
+        /* width: 100%; */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div id="wrap"> -->
+    <div>瀑布流<img src="../images/1.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/2.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/3.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/4.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/5.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/6.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/7.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/8.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/9.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/10.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/11.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/12.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/13.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/14.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/15.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/16.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/1.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/2.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/3.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/4.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/5.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/6.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/1.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/2.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/3.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/4.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/5.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/6.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/7.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/8.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/9.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/10.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/11.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/12.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/13.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/14.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/15.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/16.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/1.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/2.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/3.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/4.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/5.jpg" alt="" /></div>
+    <div>瀑布流<img src="../images/6.jpg" alt="" /></div>
+    <!-- </div> -->
+
+    <script>
+      var div = document.getElementsByTagName("div");
+      //因为图片较多，在加载时，就加载图片
+      window.onload = function () {
+        Full();
+      };
+      //当窗口大小改变时，重新分列并排序
+      window.onresize = function () {
+        Full();
+      };
+      //瀑布流函数
+      function Full() {
+        //求分几列
+        var pw = document.documentElement.offsetWidth; //页面宽度
+        var dw = div[0].offsetWidth; //每个div宽度
+        var cols = Math.floor(pw / dw);
+        //缝隙数等于列数加1，例如6行有7个缝隙
+        var white = (pw - dw * cols) / (cols + 1);
+        //每一列定位
+        var t = 10;
+        var arr = [];
+        for (var i = 0; i < cols; i++) {
+          var pos = {
+            //计算每个div的坐标(开始让每个top取一个固定值)
+            //横坐标每次不变，只有top变
+            /* 
+				 div[0]   left: white
+				 div[1]   left: white*2 + dw
+				 div[2]   left: white*3 + dw*2
+				 */
+            x: Math.floor((i + 1) * white + dw * i),
+            y: t,
+          };
+          arr.push(pos); //将坐标存入数组
+        }
+        console.log(arr);
+        //每次找高度最小的一列
+        for (var j = 0; j < div.length; j++) {
+          var index = getMinTop(arr);
+          div[j].style.left = arr[index].x + "px";
+          div[j].style.top = arr[index].y + "px";
+          arr[index].y += div[j].offsetHeight + t;
+          console.log("arr[index]", arr[index]);
+        }
+      }
+      //求每次最小高度的列
+      function getMinTop(arr) {
+        var minT = arr[0].y;
+        var index = 0;
+        for (var k = 0; k < arr.length; k++) {
+          if (arr[k].y < minT) {
+            minT = arr[k].y;
+            index = k;
+          }
+        }
+        return index;
+      }
+    </script>
+  </body>
+</html>
