@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>验证码</title>
+    <style>
+      .container {
+        height: 300px;
+        width: 300px;
+        background-color: #eee;
+        margin: 0 auto;
+      }
+
+      input {
+        height: 40px;
+        font-size: large;
+      }
+
+      button {
+        width: 80px;
+        height: 40px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <span class="code" style="font-size: larger">zuber06</span>
+      <a href="#" class="updateCode">看不清，换一张</a> <br /><br />
+
+      <label for="inputCode">验证码：</label>
+      <input type="text" id="inputCode" /> <br /><br />
+
+      <button class="submit">确认</button>
+    </div>
+    <script>
+      // 生成六位数验证码
+      function getCode() {
+        let arr = [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+        ];
+        let codeStr = "";
+        for (let i = 0; i < 6; i++) {
+          let num = Math.round(Math.random() * 16);
+          codeStr += arr[num];
+        }
+        return codeStr;
+      }
+      onload = function () {
+        document.querySelector(".code").innerHTML = getCode();
+      };
+      //   更新验证码
+      document.querySelector(".updateCode").onclick = function () {
+        document.querySelector(".code").innerHTML = getCode();
+      };
+      // 提交时验证验证码
+      document.querySelector(".submit").onclick = function () {
+        let code = document.querySelector(".code").innerText;
+        let inputCode = document.querySelector("#inputCode").value;
+        if (code === inputCode) {
+          alert("验证成功！");
+        } else {
+          alert("验证码错误！");
+          //  更新验证码
+          document.querySelector(".code").innerHTML = getCode();
+          document.querySelector("#inputCode").value = "";
+        }
+      };
+    </script>
+  </body>
+</html>
