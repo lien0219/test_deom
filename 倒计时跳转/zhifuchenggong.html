@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>支付成功</title>
+    <style>
+      div {
+        width: 200px;
+        margin: 200px auto;
+      }
+
+      button {
+        width: 80px;
+        height: 40px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>恭喜你支付成功</p>
+      <p><span class="jumpTo">5</span>秒后返回上一页</p>
+      <p><button class="toBlog">立即返回</button></p>
+    </div>
+    <script>
+      onload = function () {
+        let seconds = 5;
+        let timer = setInterval(() => {
+          seconds--;
+          document.querySelector(".jumpTo").innerHTML = seconds;
+          if (seconds == 0) {
+            clearInterval(timer);
+            location.href = "./index.html";
+          }
+        }, 1000);
+        // 立即跳转
+        document.querySelector(".toBlog").onclick = function () {
+          location.href = "./index.html";
+        };
+      };
+    </script>
+  </body>
+</html>
