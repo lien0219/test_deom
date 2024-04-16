@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>搜索框</title>
+    <style>
+      .container {
+        height: 400px;
+        width: 400px;
+        background-color: #eee;
+        margin: 100px auto;
+      }
+
+      .search {
+        width: 100%;
+        margin-left: 50px;
+      }
+
+      .input {
+        width: 150px;
+        height: 30px;
+      }
+
+      .submit {
+        width: 60px;
+        height: 30px;
+      }
+
+      .show {
+        width: 150px;
+        height: 200px;
+        margin-left: 50px;
+        border: 1px solid #535353;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="search">
+        <input type="text" placeholder="输入商品名称" class="input" />
+        <input type="submit" class="submit" />
+      </div>
+      <div class="show"></div>
+    </div>
+    <script>
+      let arr = ["苹果", "橘子", "香蕉", "菠萝", "凤梨", "无花果", "柚子"];
+      let input = document.querySelector(".input");
+      let show = document.querySelector(".show");
+
+      input.onkeyup = function () {
+        show.style.display = "block";
+        let str = "";
+        arr.map((item) => {
+          let val = input.value;
+          let res = item.indexOf(val);
+          if (res !== -1 && val) {
+            str += `<p>${item}</p>`;
+          }
+        });
+        if (str) {
+          show.innerHTML = str;
+        } else {
+          show.innerHTML = "没有匹配到结果";
+        }
+      };
+      input.onblur = function () {
+        show.style.display = "none";
+        input.value = "";
+      };
+    </script>
+  </body>
+</html>
