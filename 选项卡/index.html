@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选项卡</title>
+    <style>
+      body {
+        margin: 150px;
+      }
+
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        list-style: none;
+        width: 95px;
+        height: 40px;
+        display: inline-block;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        line-height: 40px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .img {
+        width: 400px;
+      }
+
+      img {
+        width: 400px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="select">
+      <ul>
+        <li style="background-color: #ccc">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+      </ul>
+    </div>
+    <div class="img">
+      <img src="./img/1.jpg" style="display: block" />
+      <img src="./img/2.jpg" />
+      <img src="./img/3.jpg" />
+      <img src="./img/4.jpg" />
+    </div>
+  </body>
+  <script>
+    const li = document.querySelectorAll("li");
+    const img = document.querySelectorAll("img");
+
+    for (let i = 0; i < li.length; i++) {
+      li[i].index = i;
+
+      // 移入改变颜色
+      li[i].onclick = function () {
+        // 其他颜色复原
+        for (let j of li) {
+          j.style.backgroundColor = "#eee";
+        }
+        li[i].style.backgroundColor = "#bbb";
+        // 隐藏所有图片
+        for (let j of img) {
+          j.style.display = "none";
+        }
+        img[this.index].style.display = "block";
+      };
+    }
+  </script>
+</html>
