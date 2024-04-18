@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全选</title>
+  </head>
+  <body>
+    <form action="">
+      <p><input type="checkbox" />张三</p>
+      <p><input type="checkbox" />李四</p>
+      <p><input type="checkbox" />王五</p>
+      <p><input type="checkbox" />神秀</p>
+    </form>
+    <button class="allChecked" onclick="handleChecked(0)">全选</button>
+    <button class="noChecked" onclick="handleChecked(1)">全不选</button>
+    <button class="revChecked" onclick="handleChecked(2)">反选</button>
+    <script>
+      const input = document.querySelectorAll("input");
+      // const btn = document.querySelectorAll('button')
+      // // 全选
+      // btn[0].onclick = function () {
+      //   for (let i of input) {
+      //     i.checked = true
+      //   }
+      // }
+      // // 全不选
+      // btn[1].onclick = function () {
+      //   for (let i of input) {
+      //     i.checked = false
+      //   }
+      // }
+      // // 反选
+      // btn[2].onclick = function () {
+      //   for (let i of input) {
+      //     i.checked = !i.checked
+      //   }
+      // }
+
+      // 封装为处理勾选函数
+      function handleChecked(mode) {
+        for (let i of input) {
+          if (mode === 0) {
+            i.checked = true;
+          } else if (mode === 1) {
+            i.checked = false;
+          } else if (mode === 2) {
+            i.checked = !i.checked;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
