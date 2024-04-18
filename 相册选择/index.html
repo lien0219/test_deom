@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>相册选择</title>
+    <style>
+      .big img {
+        width: 415px;
+      }
+      .small img {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="big">
+      <img src="./img/1.jpg" />
+    </div>
+    <div class="small">
+      <img src="./img/1.jpg" />
+      <img src="./img/2.jpg" />
+      <img src="./img/3.jpg" />
+      <img src="./img/4.jpg" />
+    </div>
+    <script>
+      const imgs = document.querySelectorAll("img");
+      for (let i = 1; i < imgs.length; i++) {
+        imgs[i].onmouseover = function () {
+          imgs[0].src = this.src; //this = imgs[i]
+        };
+      }
+    </script>
+  </body>
+</html>
