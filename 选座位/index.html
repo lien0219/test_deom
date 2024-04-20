@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选座位</title>
+    <style>
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      ul {
+        width: 560px;
+        margin: 0 auto;
+      }
+
+      li {
+        width: 80px;
+        height: 40px;
+        background: #ccc;
+        border: 1px solid #abc;
+        float: left;
+        margin: 5px;
+        cursor: pointer;
+      }
+
+      div {
+        /* 清除浮动  */
+        clear: both;
+        width: 200px;
+        height: 80px;
+        border: 1px solid #ccc;
+        margin: 20px auto;
+        text-align: center;
+        line-height: 80px;
+        color: #333;
+      }
+
+      .clicked {
+        text-align: center;
+        line-height: 40px;
+        color: #333;
+        background: orange;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <ul>
+      <li class="clicked">座位已选</li>
+    </ul>
+    <div>屏幕中央</div>
+
+    <script>
+      const ul = document.querySelector("ul");
+      // 添加29个空座位
+      for (let i = 0; i < 29; i++) {
+        const li = document.createElement("li");
+        ul.appendChild(li);
+      }
+      // 选座逻辑
+      const lis = document.querySelectorAll("li");
+      for (let li of lis) {
+        li.onclick = function () {
+          const res = this.getAttribute("class");
+          if (!res) {
+            this.setAttribute("class", "clicked");
+            this.innerHTML = "座位已选";
+          } else {
+            this.removeAttribute("class", "clicked");
+            this.innerHTML = "";
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
