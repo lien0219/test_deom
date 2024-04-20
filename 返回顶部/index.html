@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>返回顶部</title>
+    <style>
+      .content {
+        height: 200vh;
+      }
+      .goTop {
+        width: 80px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h2>返回顶部</h2>
+      <div class="goTop">返回顶部</div>
+    </div>
+    <script>
+      // 1当用户滑动滚动条到达400时,显示
+      // 2 点击按钮后 滚动条恢复原
+      const goTop = document.querySelector(".goTop");
+
+      window.onscroll = function () {
+        const res = document.documentElement.scrollTop;
+        console.log(res);
+        if (res > 350) {
+          goTop.style.display = "block";
+        } else {
+          goTop.style.display = "none";
+        }
+      };
+      goTop.onclick = function () {
+        document.documentElement.scrollTop = 0;
+      };
+    </script>
+  </body>
+</html>
