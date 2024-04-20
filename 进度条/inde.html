@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>进度条</title>
+    <style>
+      .progressBar {
+        height: 40px;
+        width: 400px;
+        background-color: #eee;
+        border: 1px solid #ccc;
+      }
+
+      .progressBar .progress {
+        height: 40px;
+        line-height: 40px;
+        text-align: right;
+        width: 0px;
+        background-color: antiquewhite;
+      }
+
+      .install {
+        margin-top: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progressBar">
+      <div class="progress"><span class="cnt">0</span><span>%</span></div>
+    </div>
+    <button class="install">安装</button>
+    <button class="reset">重置</button>
+    <script>
+      const install = document.querySelector(".install");
+      const reset = document.querySelector(".reset");
+      const progress = document.querySelector(".progress");
+      const cnt = document.querySelector(".cnt");
+
+      let timer = null;
+      install.onclick = function () {
+        let num = 0;
+        if (timer === null) {
+          timer = setInterval(() => {
+            num += Math.floor(Math.random() * 30 + 5);
+            if (num >= 400) {
+              clearInterval(timer);
+              num = 400;
+              timer = null;
+              setTimeout(() => {
+                alert("安装成功");
+              }, 100);
+            }
+            progress.style.width = num + "px";
+            cnt.innerHTML = num / 4; ///num / 400 * 100
+          }, 500);
+        }
+      };
+      reset.onclick = function () {
+        clearInterval(timer);
+        timer = null;
+        progress.style.width = 0;
+        cnt.innerHTML = 0;
+      };
+    </script>
+  </body>
+</html>
