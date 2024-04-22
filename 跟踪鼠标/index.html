@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>跟踪鼠标</title>
+    <style>
+      * {
+        cursor: pointer;
+      }
+      @keyframes boxFrames {
+        0% {
+          background-color: teal;
+          transform: rotate(0deg);
+        }
+        50% {
+          background-color: skyblue;
+          transform: rotate(180deg);
+        }
+        100% {
+          background-color: pink;
+          transform: rotate(360deg);
+        }
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        animation: boxFrames 1.5s infinite;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+
+    <script>
+      const box = document.querySelector(".box");
+      document.onmousemove = function (e) {
+        box.style.left = e.clientX - box.offsetWidth / 2 + "px";
+        box.style.top = e.clientY - box.offsetWidth / 2 + "px";
+      };
+    </script>
+  </body>
+</html>
