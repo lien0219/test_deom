@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>抽奖</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 700px;
+        height: 700px;
+        margin: 50px auto;
+      }
+
+      button {
+        height: 50px;
+        width: 100px;
+        margin: 25px;
+        position: relative;
+        left: 100px;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: inline-block;
+        width: 100px;
+        height: 50px;
+        border: 1px solid skyblue;
+        line-height: 50px;
+        text-align: center;
+        margin: 10px;
+        background-color: pink;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <button class="start">开始抽奖</button>
+      <button class="add">添加奖品</button>
+      <ul class="prizes">
+        <!-- <li class="option">张三</li>
+          <li class="option">李四</li>
+          <li class="option">王五</li> -->
+      </ul>
+    </div>
+  </body>
+  <script src="../jquery.min.js"></script>
+  <script>
+    // 导入奖品
+    $(function () {
+      $.ajax({
+        type: "get",
+        url: "./prizes.json",
+        success: (res) => {
+          let datas = res.data;
+          let newLis = ``;
+          datas.map((itme) => {
+            newLis += `<li class="option">${itme}</li>`;
+          });
+          $(".prizes").append(newLis);
+        },
+      });
+    });
+
+    // 抽奖逻辑
+    let timer = null;
+    $(".start").click(() => {
+      // 获取所有奖品信息
+      let options = $(".option");
+
+      // num到达一定数量会自动停止
+      let stopCondition = 0;
+      let len = options.length;
+      if (timer === null) {
+        timer = setInterval(() => {
+          stopCondition++;
+          // 随机选择[0, len-1]的数
+          const randomSelect = Math.round(Math.random() * (len - 1));
+
+          //把所有的元素都恢复原来样式
+          for (let opt of options) {
+            opt.style.backgroundColor = "pink";
+          }
+          // 选中的元素变成蓝色
+          options[randomSelect].style.backgroundColor = "skyblue";
+
+          if (stopCondition >= 10) {
+            clearInterval(timer);
+            timer = null;
+            setTimeout(() => {
+              alert(`恭喜你，抽到的奖品是${options[randomSelect].textContent}`);
+            }, 250);
+          }
+        }, 250);
+      }
+    });
+
+    $(".add").click(() => {
+      alert("没有开放");
+    });
+  </script>
+</html>
