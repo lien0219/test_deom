@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        margin: 50px auto;
+        height: 500px;
+        width: 500px;
+      }
+
+      ul {
+        list-style: none;
+        margin-top: 20px;
+      }
+
+      li {
+        width: 400px;
+        height: 40px;
+        border-bottom: 1px solid #eee;
+        line-height: 40px;
+      }
+
+      a {
+        text-decoration: none;
+        color: pink;
+        margin-right: 50px;
+        /* 不设置inlie-block就没法给a标签设置宽度 */
+        display: inline-block;
+        width: 280px;
+      }
+
+      span {
+        font-size: small;
+        color: rgba(135, 207, 235, 0.682);
+      }
+
+      h2 {
+        float: left;
+        margin-right: 240px;
+      }
+
+      button {
+        height: 40px;
+        width: 80px;
+        border: 0;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: pink;
+      }
+
+      button:active {
+        background-color: palevioletred;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>百度热榜</h2>
+      <button id="refresh">刷新</button>
+      <ul class="hot">
+        <!-- <li><a href="">朱广权神总结开学心情</a><span>4730000</span></li>
+          <li><a href="">瑞德西韦美国试验结果数据积极</a><span>4703000</span></li>
+          <li><a href="">郭涛出书自曝打女人经历</a><span>1212122</span></li>
+          <li><a href="">外交部回应两会代表是否要隔离</a><span>233434</span></li>
+          <li><a href="">冯小乐是金文科技创始人</a><span>909090</span></li>
+          <li><a href="">张文宏称戴口罩分餐将成新常态</a><span>442545</span></li>
+          <li><a href="">北京朝阳降为低风险地区</a><span>345678</span></li> -->
+      </ul>
+    </div>
+  </body>
+
+  <script src="../jquery.min.js"></script>
+  <script>
+    $(function () {
+      $.ajax({
+        type: "get",
+        url: "./top.json",
+        success: (res) => {
+          // 获取数据
+          let datas = res.data;
+          // console.log(datas)
+          datas.sort((a, b) => {
+            return b.num - a.num;
+          });
+          let newLis = ``;
+          datas.map((item) => {
+            newLis += `<li><a href="#">${item.title}</a><span>${item.num}</span></li>`;
+          });
+          $(".hot li").remove();
+          $(".hot").append(newLis);
+        },
+      });
+    });
+  </script>
+</html>
