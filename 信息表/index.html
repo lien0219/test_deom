@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>信息表</title>
+    <style>
+      fieldset {
+        width: 600px;
+        margin: 0 auto;
+        background-color: rgba(255, 192, 203, 0.671);
+      }
+
+      input {
+        height: 20px;
+      }
+
+      select {
+        width: 50px;
+      }
+
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
+
+      tr {
+        height: 40px;
+      }
+
+      table {
+        /* 边框线合并为一根线 */
+        border-collapse: collapse;
+        width: 630px;
+        text-align: center;
+        margin: 20px auto;
+      }
+
+      thead {
+        background-color: rgb(254, 153, 169);
+      }
+
+      .pointable {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <fieldset>
+        <legend>学生录入信息</legend>
+        <p>
+          <span>姓名：</span>
+          <input type="text" name="username" id="username" />
+        </p>
+        <p>
+          <span>年龄：</span>
+          <input type="text" name="age" id="age" />
+        </p>
+        <p>
+          <span>性别：</span>
+          <select name="sex" id="sex">
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+        </p>
+        <p>
+          <span>手机：</span>
+          <input type="text" name="phone" id="phone" />
+        </p>
+        <p>
+          <button class="submit">确认提交</button>
+        </p>
+      </fieldset>
+
+      <table>
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>手机</th>
+            <th>删除</th>
+          </tr>
+        </thead>
+        <tbody class="displayStus">
+          <!-- <tr>
+            <td>张三</td>
+            <td>18</td>
+            <td>男</td>
+            <td>15511111111</td>
+            <td>删除</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      const username = document.querySelector("#username");
+      const age = document.querySelector("#age");
+      const sex = document.querySelector("#sex");
+      const phone = document.querySelector("#phone");
+      const displayStus = document.querySelector(".displayStus");
+
+      let stus = [];
+      //   提交
+      document.querySelector(".submit").onclick = function () {
+        let stu = {
+          username: username.value,
+          age: age.value,
+          sex: sex.value,
+          phone: phone.value,
+        };
+        if (stu.username !== "" && stu.age !== "" && stu.phone !== "") {
+          stus.push(stu);
+          updateStus();
+        }
+      };
+      //   更新dom
+      function updateStus() {
+        let tr = ``;
+        stus.forEach((stu, index) => {
+          tr += `<tr class='newTr'>
+            <td>${stu.username}</td>    
+            <td>${stu.age}</td>
+            <td>${stu.sex}</td>
+            <td>${stu.phone}</td>
+            <td onclick=del('&{index}') class='pointable'>删除</td>
+            `;
+        });
+        displayStus.innerHTML = tr;
+      }
+      //   删除
+      function del(index) {
+        stus.splice(index, 1);
+        updateStus();
+      }
+    </script>
+  </body>
+</html>
