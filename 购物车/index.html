@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>购物车</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        width: 600px;
+        text-align: center;
+      }
+
+      td,
+      th {
+        width: 120px;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <table>
+      <tr>
+        <th><button class="checkAll">全选</button></th>
+        <th>商品名称</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+      </tr>
+      <tr>
+        <td><input type="checkbox" name="" class="isOpt" /></td>
+        <td>电脑</td>
+        <td class="price">200</td>
+        <td>
+          <button class="decrease">-</button>
+          <span>1</span>
+          <button class="increase">+</button>
+        </td>
+        <td class="subtotal">200</td>
+        <td>删除</td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" name="" class="isOpt" /></td>
+        <td>手机</td>
+        <td class="price">100</td>
+        <td>
+          <button class="decrease">-</button>
+          <span>1</span>
+          <button class="increase">+</button>
+        </td>
+        <td class="subtotal">100</td>
+        <td>删除</td>
+      </tr>
+    </table>
+    <div>
+      <span>总计：</span>
+      <span class="total">0</span>
+      <button class="checkNone">全不选</button>
+    </div>
+
+    <script src="../jquery.min.js"></script>
+    <script>
+      console.trace = "";
+
+      // 加
+      $(".increase").click(function () {
+        // 数量
+        let num = parseInt($(this).prev().text());
+        if (num < 99) {
+          num++;
+          $(this).prev().text(num);
+        }
+
+        // 小计
+        calSubtotal(this, num);
+        // 总计
+        calTotal();
+      });
+
+      // 减
+      $(".decrease").click(function () {
+        let num = parseInt($(this).next().text());
+        if (num > 0) {
+          num--;
+          $(this).next().text(num);
+        }
+
+        calSubtotal(this, num);
+        calTotal();
+      });
+
+      // 小计
+      function calSubtotal(selfElement, num) {
+        //先拿到价格
+        let price = parseInt($(selfElement).parent().prev().text());
+        // 价格 * 数量
+        $(selfElement)
+          .parent()
+          .next()
+          .text(price * num);
+      }
+
+      // 全选
+      $(".checkAll").click(function () {
+        for (let i = 0; i < $(".isOpt").length; i++) {
+          $(".isOpt").eq(i).prop("checked", true);
+        }
+        calTotal();
+      });
+
+      // 全不选
+      $(".checkNone").click(function () {
+        for (let i = 0; i < $(".isOpt").length; i++) {
+          $(".isOpt").eq(i).prop("checked", false);
+        }
+        calTotal();
+      });
+
+      // 总计 = 小计 * 和 （选中条件下）
+      function calTotal() {
+        let total = 0;
+        for (let i = 0; i < $(".subtotal").length; i++) {
+          // 判断是否选中 isOpt 和 subtotal 的关系是对应的，所以编号也是一样的
+          // console.log($('.isOpt').eq(i).prop('checked')) prop('checked') 验证是否为checked
+          if ($(".isOpt").eq(i).prop("checked")) {
+            total += parseInt($(".subtotal").eq(i).text());
+          }
+        }
+        $(".total").text(total);
+      }
+
+      //选中触发总计
+      $(".isOpt").click(() => calTotal());
+    </script>
+  </body>
+</html>
