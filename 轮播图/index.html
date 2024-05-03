@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>轮播图</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .swiper {
+        width: 600px;
+        height: 450px;
+        overflow: hidden;
+        margin: 60px auto;
+      }
+
+      .imgs {
+        /* 600 * (6+2) */
+        display: flex;
+        width: 4800px;
+        height: 100%;
+        position: relative;
+        left: -600px;
+      }
+
+      .imgs li {
+        width: 600px;
+      }
+
+      .swiper img {
+        width: 100%;
+      }
+
+      .dots {
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.3);
+        width: 600px;
+        height: 50px;
+        text-align: center;
+        position: relative;
+        bottom: 50px;
+      }
+
+      .dots li {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #cccccc;
+        position: relative;
+        top: 12.5px;
+        left: 200px;
+        margin-left: 10px;
+        float: left;
+      }
+
+      .dots .active {
+        background-color: pink;
+      }
+
+      .prev,
+      .next {
+        position: absolute;
+        width: 30px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: pink;
+        font-size: large;
+        border: 0;
+        cursor: pointer;
+      }
+
+      .prev {
+        left: 320px;
+        top: 200px;
+      }
+
+      .next {
+        right: 320px;
+        top: 200px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="swiper">
+      <ul class="imgs">
+        <li><img src="../images/1.jpg" /></li>
+        <li><img src="../images/2.jpg" /></li>
+        <li><img src="../images/3.jpg" /></li>
+        <li><img src="../images/4.jpg" /></li>
+        <li><img src="../images/5.jpg" /></li>
+        <li><img src="../images/6.jpg" /></li>
+        <li><img src="../images/8.jpg" /></li>
+        <li><img src="../images/7.jpg" /></li>
+      </ul>
+      <ul class="dots">
+        <li class="dot active"></li>
+        <li class="dot"></li>
+        <li class="dot"></li>
+        <li class="dot"></li>
+        <li class="dot"></li>
+        <li class="dot"></li>
+      </ul>
+      <button class="prev">上一张</button>
+      <button class="next">下一张</button>
+    </div>
+  </body>
+
+  <script src="../jquery.min.js"></script>
+  <script>
+    // 图片编号===标记切换到哪个图片了
+    let index = 1;
+    // 小圆点功能
+    let i = 0;
+
+    // 切换逻辑 封装起来
+    function switchover() {
+      // 判断是否越界
+      if (index >= 7) {
+        index = 1;
+        $(".imgs").css("left", 0);
+      }
+      $(".imgs").animate(
+        {
+          left: -600 * index,
+        },
+        500
+      );
+      // 点改变
+      if (i > 5) {
+        i = 0;
+      }
+      if (i < 0) {
+        i = 5;
+      }
+      // 匹配index的addClass， remove所有dots的active, 表达式是从右到左执行
+      $(".dots li").eq(i).addClass("active").siblings().removeClass("active");
+    }
+
+    //定时切换图片 2s一次
+    // $(function (e) {
+    //   setInterval(() => {
+    //     index++
+    //     i++
+    //     switchover()
+    //   }, 2000)
+    // })
+
+    // 切换到上一张
+    $(".prev").click(() => {
+      index--;
+      i--;
+      if (index < 0) {
+        index = 5;
+        $(".imgs").css("left", -3600);
+      }
+      switchover();
+    });
+
+    // 切换到下一张
+    $(".next").click(() => {
+      index++;
+      i++;
+      switchover();
+    });
+  </script>
+</html>
