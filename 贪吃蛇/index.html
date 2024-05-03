@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>贪吃蛇</title>
+  <!-- 引入css -->
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/snake.css">
+  <link rel="stylesheet" href="css/food.css">
+</head>
+
+<body>
+  <!-- 分数 -->
+  <div class="score">0</div>
+  <!-- 开始 暂停 重置-->
+  <div class="set">
+    <button class="start">开始</button>
+    <button class="pause">暂停</button>
+    <button class="reset">重置</button>
+  </div>
+  <!-- 游戏主体面板 -->
+  <div class="board"></div>
+  <!-- 音效 -->
+  <audio src="./mp3/bgm.mp3" loop id="bgm"></audio>
+  <audio src="./mp3/die.mp3" id="die"></audio>
+  <audio src="./mp3/eat.mp3" id="eat"></audio>
+
+  <!-- 提示 -->
+  <p class="tip">失败了点击重置再点击开始</p>
+</body>
+<!-- 引入js -->
+<script src="js/jquery.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/board.js"></script>
+<script src="js/snake.js"></script>
+<script src="js/food.js"></script>
+<script src="js/game.js"></script>
+
+</html>

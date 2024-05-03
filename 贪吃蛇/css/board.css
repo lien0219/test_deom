@@ -1,0 +1,95 @@
+* {
+  /* padding 和 border 不影响div的宽高 */
+  box-sizing: border-box;
+}
+
+html,
+body {
+  /* 展开全屏幕 */
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  /* background: #222; */
+  /* radial-gradient 带有均匀间隔色标的径向(外围向中心)渐变 */
+  background: radial-gradient(#333, #111);
+  /* 设置背景图像的起始位置 */
+  background-position: center;
+  color: #fff;
+  /* 字体大小响应式*/
+  /* font: 100%/1.5 sans-serif; */
+  overflow: hidden;
+}
+
+/* 分数样式 */
+.score {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 5px;
+  text-align: center;
+}
+
+/* 按钮 */
+.set {
+  display: flex;
+  justify-content: center;
+}
+
+/* 提示 */
+.tip{
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  color: #444;
+  font-size: small;
+}
+
+button {
+  height: 30px;
+  width: 60px;
+  background-color: #333;
+  color: #eee;
+  margin: 5px;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* 面板 */
+.board {
+  margin: 20px 150px;
+  position: absolute;
+}
+
+/* 小方格 */
+.tile {
+  background: rgba(0, 0, 0, 0.15);
+  position: absolute;
+  /* transition-property 属性规定应用过渡效果的 CSS 属性的名称。
+  （当指定的 CSS 属性改变时，过渡效果将开始）。 */
+  transition-property:
+    background,
+    box-shadow,
+    opacity,
+    transform;
+  /* 一个小方格渐隐时间 即蛇尾的渐隐长度（受时间控制） */
+  transition-duration: 3s;
+}
+
+/* 小方格伪类  配合指引食物路径 */
+.tile:before {
+  bottom: 0;
+  content: '';
+  height: 0;
+  width: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+  /* 从透明到不透明 */
+  opacity: 0;
+  position: absolute;
+  transition: opacity 500ms;
+}

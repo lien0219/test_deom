@@ -1,0 +1,40 @@
+/* path 指示食物路径的方块的 CSS 类 */
+.tile.path:before {
+  opacity: 1;
+}
+
+/*向上的三角箭头*/
+.tile.up:before {
+  border-bottom: 4px inset rgba(255, 255, 255, 0.15);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+/*向下的三角箭头*/
+.tile.down:before {
+  border-top: 4px inset rgba(255, 255, 255, 0.15);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+/*向左的三角箭头*/
+.tile.left:before {
+  border-right: 4px inset rgba(255, 255, 255, 0.15);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/*向右的三角箭头*/
+.tile.right:before {
+  border-left: 4px inset rgba(255, 255, 255, 0.15);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/* 箭头宽度 */
+.tile.up:before,
+.tile.down:before,
+.tile.left:before,
+.tile.right:before {
+  border-width: 8px;
+}
