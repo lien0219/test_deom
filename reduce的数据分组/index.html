@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>reduce数据分组</title>
+  </head>
+  <body>
+    <script>
+      const data = [
+        { category: "fruits", item: "apple" },
+        { category: "animals", item: "dog" },
+        { category: "fruits", item: "banana" },
+        { category: "animals", item: "cat" },
+        { category: "vegetables", item: "carrot" },
+      ];
+      function groupBy(array, key) {
+        return array.reduce((result, currentItem) => {
+          // 使用 key 函数获取分组的键
+          const groupKey = key(currentItem);
+          // 确保 result 对象中有对应分组的数组
+          if (!result[groupKey]) {
+            result[groupKey] = [];
+          }
+          // 将当前项添加到对应分组的数组中
+          result[groupKey].push(currentItem);
+          return result;
+        }, {});
+      }
+      const groupedData = groupBy(data, (item) => item.category);
+      console.log(groupedData);
+    </script>
+  </body>
+</html>
