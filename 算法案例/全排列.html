@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全排列</title>
+  </head>
+  <body>
+    <script>
+      /*
+        给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
+        示例 1：
+
+        输入：nums = [1,2,3]
+        输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+        示例 2：
+
+        输入：nums = [0,1]
+        输出：[[0,1],[1,0]]
+        示例 3：
+
+        输入：nums = [1]
+        输出：[[1]]
+        
+
+        提示：
+
+        1 <= nums.length <= 6
+        -10 <= nums[i] <= 10
+        nums 中的所有整数 互不相同
+        
+        */
+
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      function permute(nums) {
+        var result = [];
+        var path = []; //当前的排列
+        nums.sort(); //排序确保结果的顺序
+
+        function backtrack(first = 0) {
+          // 如果当前路径的长度等于nums的长度，则将当前排列添加到结果中
+          if (first === nums.length) {
+            result.push(path.slice()); // 使用slice()来复制当前的排列
+            return;
+          }
+
+          for (var i = first; i < nums.length; i++) {
+            // 交换当前元素到第一位
+            swap(nums, first, i);
+            // 将当前元素添加到路径中
+            path.push(nums[first]);
+            // 递归生成剩余元素的排列
+            backtrack(first + 1);
+            // 回溯，移除当前元素，恢复nums数组
+            path.pop();
+            // 交换回原位置，为下次循环做准备
+            swap(nums, first, i);
+          }
+        }
+        //   辅助函数，交换数
+        function swap(arr, i, j) {
+          var temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+
+        backtrack();
+        return result;
+      }
+
+      var nums = [1, 2, 3];
+      let res = permute(nums);
+      console.log(res);
+    </script>
+  </body>
+</html>
