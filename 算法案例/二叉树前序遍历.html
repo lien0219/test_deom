@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>二叉树前序遍历</title>
+  </head>
+  <body>
+    <script>
+      /*
+        前序遍历是一种遍历二叉树的方法，遍历顺序为：
+        根节点 -> 左子树 -> 右子树。对于给定的二叉树，
+        前序遍历的算法可以通过递归或迭代的方式实现。
+        */
+
+      // 递归
+      /**
+       * @param {TreeNode} root
+       * @return {number[]}
+       */
+      var preorderTraversal1 = function (root) {
+        if (root === null) {
+          return [];
+        }
+        let result = [];
+        function traverse(node) {
+          result.push(node.val);
+          if (node.left) {
+            traverse(node.left);
+          }
+          if (node.right) {
+            traverse(node.right);
+          }
+        }
+        traverse(root);
+        return result;
+      };
+      /*
+      思路：
+      preorderTraversal函数接受一个二叉树的根节点root作为参数，
+      并返回一个数组，其中包含二叉树的前序遍历结果。
+      函数内部首先检查根节点是否为null，如果是，则直接返回一个空数组。
+      定义traverse的递归辅助函数，该函数接收一个节点作为参数，
+      并按照前序遍历的顺序将节点的值添加到结果数组中。
+      最后，调用traverse函数并传入根节点root，然后返回填充好的结果数组
+      */
+
+      //迭代
+      /**
+       * @param {TreeNode} root
+       * @return {number[]}
+       */
+      var preorderTraversal2 = function (root) {
+        if (!root) return [];
+
+        let stack = [root];
+        let result = [];
+
+        while (stack.length) {
+          let node = stack.pop();
+          if (node) {
+            result.push(node.val);
+            // 将右子节点入栈（先入栈）
+            stack.push(node.right);
+            // 将左子节点入栈（后入栈）
+            stack.push(node.left);
+          }
+        }
+
+        return result;
+      };
+      /*
+      preorderTraversal函数接受一个二叉树的根节点root作为参数，
+      并返回一个数组，其中包含二叉树的前序遍历结果。
+        函数内部首先检查根节点是否为null，如果是，则直接返回一个空数组。
+        然后，初始化一个栈stack，并将根节点root作为初始元素压入栈中。
+
+        接着，使用一个while循环，当栈不为空时，执行以下操作：
+
+        弹出栈顶元素node。
+        如果node不为空，将其值添加到结果数组result中。
+        将node的右子节点压入栈中（因为栈是后进先出的结构，所以先压右子节点）。
+        将node的左子节点压入栈中。
+        循环结束后，栈为空，此时结果数组result中已经包含了按照前序遍历顺序的节点值，最后返回这个结果数组。
+
+        这种迭代方法避免了递归可能导致的栈溢出问题，尤其适用于深度较大的二叉树。
+      */
+    </script>
+  </body>
+</html>
