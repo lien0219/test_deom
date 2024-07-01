@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>语音转文字</title>
+  </head>
+  <body>
+    <div>
+      <textarea
+        name="语音转文字内容区"
+        id="area"
+        cols="30"
+        rows="10"
+        placeholder="说点什么吧..."
+      ></textarea>
+      <div>
+        <button id="speekButton">🎤</button>
+        <p id="addTextButton">发布</p>
+      </div>
+      <ul id="list" style="display: none"></ul>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const area = document.getElementById("area");
+        const speekButton = document.getElementById("speekButton");
+        const addTextButton = document.getElementById("addTextButton");
+        const list = document.getElementById("list");
+        let textInp = "";
+        let isGoing = false;
+        let recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "zh-CN";
+        recognition.onresult = function (event) {
+          let result = "";
+          for (let i = 0; i <= event.resultIndex; i++) {
+            result += event.results[i][0].transcript;
+          }
+          textInp = result;
+          area.value = textInp;
+        };
+
+        speekButton.addEventListener("click", function () {
+          if (isGoing) {
+            recognition.stop();
+            isGoing = false;
+          } else {
+            recognition.start();
+            isGoing = true;
+          }
+        });
+
+        addTextButton.addEventListener("click", function () {
+          let newItem = document.createElement("li");
+          newItem.textContent = textInp;
+          list.appendChild(newItem);
+          textInp = "";
+          area.value = "";
+        });
+      });
+    </script>
+  </body>
+</html>
